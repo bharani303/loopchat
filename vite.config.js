@@ -1,38 +1,34 @@
-import path from 'path';
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
-
-  define: {
-    global: 'window',
-  },
+  plugins: [react(), tailwindcss()],
 
   resolve: {
+    dedupe: ["react", "react-dom"],
     alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-    dedupe: ['react', 'react-dom'],
+      "@": path.resolve(__dirname, "./src"),
+      // 🔥 Force absolute single source of truth for React
+      react: path.resolve(__dirname, "node_modules/react"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom")
+    }
   },
 
-  // 🚀 FAANG-Level Production Optimizations
-  build: {
-    target: 'esnext',
-    minify: 'esbuild', // Faster and smaller than terser
-    cssMinify: true,
-    cssCodeSplit: true,
-    modulePreload: { polyfill: true },
-    chunkSizeWarningLimit: 500,
+  define: {
+    global: "window",
+  },
 
+  build: {
+    target: "esnext",
+    commonjsOptions: {
+      transformMixedEsModules: true
+    },
+    // Keep grouping for performance but under strict dedupe
     rollupOptions: {
       output: {
-        // Group huge dependencies into separate chunks for better caching
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('react')) return 'vendor-core';
@@ -42,7 +38,6 @@ export default defineConfig({
             return 'vendor-utils';
           }
         },
-        // Premium fingerprinted filenames
         chunkFileNames: 'static/js/[name].[hash].js',
         entryFileNames: 'static/js/[name].[hash].js',
         assetFileNames: 'static/[ext]/[name].[hash].[ext]',
