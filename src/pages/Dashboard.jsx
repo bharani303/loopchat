@@ -121,7 +121,7 @@ export default function Dashboard() {
                 className="w-[84px] h-[84px] cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={() => setShowRightProfilePic(true)}
               >
-                <AvatarImage src={profileUser?.profileImage || `https://api.dicebear.com/7.x/notionists/svg?seed=${profileUser?.username}`} />
+                <AvatarImage src={profileUser?.profileImage || `https://api.dicebear.com/7.x/notionists/svg?seed=${profileUser?.username || 'member'}`} />
                 <AvatarFallback>{profileUser?.username?.substring(0,2).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="absolute bottom-1 right-1 w-5 h-5 bg-[#23A559] border-[4px] border-[#111214] rounded-full" />
@@ -153,7 +153,7 @@ export default function Dashboard() {
         >
           <div className="relative flex flex-col items-center max-w-[90vw] max-h-[90vh]" onClick={e => e.stopPropagation()}>
             <img 
-              src={profileUser.profileImage || `https://api.dicebear.com/7.x/notionists/svg?seed=${profileUser.username}`} 
+              src={profileUser.profileImage || `https://api.dicebear.com/7.x/notionists/svg?seed=${profileUser.username || 'member'}`} 
               alt={`${profileUser.username}'s profile`} 
               className="max-w-full max-h-[80vh] object-contain rounded-full shadow-2xl ring-4 ring-[#2B2D31]" 
             />

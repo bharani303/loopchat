@@ -148,14 +148,12 @@ export default function ProfileSetup() {
                     <input
                       type="text"
                       value={username}
-                      readOnly
-                      className="w-full bg-[#1E1F22]/50 rounded-[4px] px-4 py-3 text-[#949BA4] border-none outline-none font-medium text-[15px] cursor-not-allowed opacity-80"
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Your awesome username"
+                      className="w-full bg-[#1E1F22] rounded-[4px] px-4 py-3 text-[#DBDEE1] border-none outline-none font-medium text-[15px] focus:ring-1 focus:ring-[#5865F2] transition-all placeholder:text-[#4E5058]"
                     />
-                    <div className="absolute right-3 bottom-3 text-[10px] font-bold text-amber-500/50 select-none uppercase tracking-tighter">
-                      Locked
-                    </div>
                   </div>
-                  <p className="text-[11px] text-[#72767D] px-1 italic">Username is restricted and cannot be changed.</p>
+                  <p className="text-[11px] text-[#72767D] px-1 italic">Choose a unique display name for the community.</p>
                 </div>
 
                 <div className="space-y-2 flex-1">
