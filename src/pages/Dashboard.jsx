@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import ChatWindow from '../components/ChatWindow';
-import AiPanel from '../components/AiPanel';
+
+const AiPanel = lazy(() => import('../components/AiPanel'));
 import { useChat } from '../context/ChatContext';
 import { useAuth } from '../context/AuthContext';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
@@ -95,11 +96,13 @@ export default function Dashboard() {
 
       {/* 4. AI Panel - Slides in from right when toggled */}
       {selectedUser && isAiOpen && (
-        <AiPanel 
-          isOpen={isAiOpen}
-          onClose={() => setIsAiOpen(false)}
-          onUseMessage={handleAiUseMessage}
-        />
+        <Suspense fallback={<div className="w-[300px] lg:w-[340px] flex-shrink-0 bg-[#1E1F22] border-l border-[#3A3C42]/50 animate-pulse hidden xl:flex"></div>}>
+          <AiPanel 
+            isOpen={isAiOpen}
+            onClose={() => setIsAiOpen(false)}
+            onUseMessage={handleAiUseMessage}
+          />
+        </Suspense>
       )}
 
       {/* 5. Right Profile Panel - Only on large screens when a user is selected AND AI panel is closed */}

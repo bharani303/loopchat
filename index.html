@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://api.dicebear.com" />
+    <link rel="preload" href="/assets/logo.png" as="image" />
 
     <!-- Theme Color (Mobile browser URL bar) -->
     <meta name="theme-color" content="#7c3aed" />
@@ -51,7 +52,6 @@
     <meta name="twitter:description" content="The most modern AI chat platform. Real-time WebSocket, smart replies, zero lag, mobile-first." />
     <meta name="twitter:image" content="/assets/logo.png" />
 
-    <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -91,6 +91,12 @@
         }
       }
     </script>
+    <style>
+      /* Critical minimal styles for App Mount to avoid shifts */
+      html, body {
+        margin: 0; padding: 0; background-color: #09090b; color: white;
+      }
+    </style>
   </head>
   <body>
     <!-- ARIA live region for screen readers -->

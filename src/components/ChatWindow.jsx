@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { Phone, Video, HelpCircle, PlusCircle, Smile, Inbox, ArrowLeft, Loader2, Sparkles, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
-import EmojiPicker from 'emoji-picker-react';
+const EmojiPicker = lazy(() => import('emoji-picker-react'));
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import MessageBubble from './MessageBubble';
 import { useChat } from '../context/ChatContext';
@@ -311,7 +311,9 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
 
             {showEmojiPicker && (
               <div className="absolute bottom-full left-0 mb-4 z-50 drop-shadow-2xl">
-                <EmojiPicker onEmojiClick={onEmojiClick} theme="dark" />
+                <Suspense fallback={<div className="p-4 bg-[#2B2D31] text-[#DBDEE1] rounded-lg text-sm border border-[#3A3C42] shadow-lg">Loading picker...</div>}>
+                  <EmojiPicker onEmojiClick={onEmojiClick} theme="dark" />
+                </Suspense>
               </div>
             )}
 

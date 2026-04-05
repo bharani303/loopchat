@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import {
   Video,
@@ -11,7 +11,8 @@ import {
   Menu,
   X
 } from 'lucide-react';
-import FloatingLines from '../components/FloatingLines/FloatingLines';
+
+const FloatingLines = lazy(() => import('../components/FloatingLines/FloatingLines'));
 
 export default function Landing({ onNavigate }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -90,19 +91,21 @@ export default function Landing({ onNavigate }) {
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
           {/* FloatingLines Background */}
           <div className="absolute inset-0 z-0 opacity-70">
-            <FloatingLines
-              linesGradient={['#7c3aed', '#4c1d95', '#a855f7', '#312e81']}
-              enabledWaves={['top', 'middle', 'bottom']}
-              lineCount={[12, 10, 14]}
-              lineDistance={[4, 3, 5]}
-              animationSpeed={1.0}
-              interactive={true}
-              bendRadius={5.0}
-              bendStrength={-0.4}
-              parallax={true}
-              parallaxStrength={0.15}
-              mixBlendMode="screen"
-            />
+            <Suspense fallback={<div className="absolute inset-0 bg-transparent flex items-center justify-center"></div>}>
+              <FloatingLines
+                linesGradient={['#7c3aed', '#4c1d95', '#a855f7', '#312e81']}
+                enabledWaves={['top', 'middle', 'bottom']}
+                lineCount={[12, 10, 14]}
+                lineDistance={[4, 3, 5]}
+                animationSpeed={1.0}
+                interactive={true}
+                bendRadius={5.0}
+                bendStrength={-0.4}
+                parallax={true}
+                parallaxStrength={0.15}
+                mixBlendMode="screen"
+              />
+            </Suspense>
           </div>
 
           {/* Hero Content */}

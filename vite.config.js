@@ -20,14 +20,18 @@ export default defineConfig({
 
   build: {
     target: "esnext",
+    minify: "esbuild",
+    cssCodeSplit: true,
     commonjsOptions: {
       transformMixedEsModules: true
     },
     rollupOptions: {
       output: {
-        // Safe chunking: only split out packages that do NOT depend on React
         manualChunks: {
+          'react-core': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-animations': ['framer-motion'],
           'vendor-visuals': ['three'],
+          'vendor-ui': ['lucide-react', 'emoji-picker-react'],
         },
         chunkFileNames: 'static/js/[name].[hash].js',
         entryFileNames: 'static/js/[name].[hash].js',
