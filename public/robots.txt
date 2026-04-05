@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /create-account
+
+# Disallow private/app routes
+Disallow: /dashboard
+Disallow: /profile-setup
+Disallow: /random-chat
+
+Sitemap: https://loopchat.app/sitemap.xml

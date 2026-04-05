@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Video, 
-  Users, 
-  Search, 
-  MessageSquare, 
-  ShieldCheck, 
+import {
+  Video,
+  Users,
+  Search,
+  MessageSquare,
+  ShieldCheck,
   Sparkles,
   MessageCircle,
   Menu,
-  X} from 'lucide-react';
+  X
+} from 'lucide-react';
 import FloatingLines from '../components/FloatingLines/FloatingLines';
 
 export default function Landing({ onNavigate }) {
@@ -25,7 +26,7 @@ export default function Landing({ onNavigate }) {
 
       <div className="relative z-10">
         {/* Centered Pro Navbar */}
-        <motion.nav 
+        <motion.nav
           initial={{ y: -100, x: '-50%', opacity: 0 }}
           animate={{ y: 0, x: '-50%', opacity: 1 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
@@ -33,8 +34,8 @@ export default function Landing({ onNavigate }) {
         >
           {/* Left: Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-purple-500/25">
-              <MessageCircle className="w-5 h-5 text-white" />
+            <div className="w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center">
+              <img src="/assets/logo.png" alt="Loopchat" className="w-full h-full object-cover mix-blend-screen scale-[1.3] brightness-[1.1] contrast-[1.1]" />
             </div>
             <span className="text-lg font-bold tracking-tight text-white hidden sm:block">Loopchat</span>
           </div>
@@ -42,13 +43,13 @@ export default function Landing({ onNavigate }) {
           {/* Center: Desktop Nav (Perfectly Centered) */}
           <div className="hidden lg:flex items-center absolute left-1/2 -translate-x-1/2 bg-white/5 border border-white/5 px-2 py-1 rounded-xl gap-1">
             {['Home', 'Blog', 'About', 'Support'].map((item) => (
-              <a 
-                key={item} 
-                href="#" 
+              <button
+                key={item}
+                onClick={() => item === 'Home' ? null : onNavigate("under-construction")}
                 className="px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"
               >
                 {item}
-              </a>
+              </button>
             ))}
           </div>
 
@@ -63,16 +64,22 @@ export default function Landing({ onNavigate }) {
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
-          
+
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="lg:hidden absolute top-20 inset-x-0 bg-zinc-900/90 backdrop-blur-3xl border border-white/10 rounded-2xl p-6 flex flex-col gap-4 shadow-2xl"
+              className="lg:hidden absolute top-20 inset-x-4 bg-zinc-900/90 backdrop-blur-3xl border border-white/10 rounded-2xl p-6 flex flex-col gap-4 shadow-2xl"
             >
               {['Home', 'Blog', 'About', 'Support'].map((item) => (
-                <a key={item} href="#" className="py-2 text-zinc-400 hover:text-white transition-colors border-b border-white/5">{item}</a>
+                <button
+                  key={item}
+                  onClick={() => item === 'Home' ? setIsMenuOpen(false) : onNavigate("under-construction")}
+                  className="py-2 text-zinc-400 hover:text-white transition-colors border-b border-white/5 text-left"
+                >
+                  {item}
+                </button>
               ))}
               <button onClick={() => onNavigate("login")} className="w-full mt-2 px-5 py-3 rounded-xl bg-white text-black font-bold">Login</button>
             </motion.div>
@@ -109,18 +116,18 @@ export default function Landing({ onNavigate }) {
               <Sparkles className="w-4 h-4" />
               <span>Talk to strangers, Make friends!</span>
             </motion.div>
-            
-            <motion.h1 
+
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight drop-shadow-2xl"
+              className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight drop-shadow-2xl"
             >
               The Modern Way to <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-400">Connect Globally</span>
             </motion.h1>
-            
-            <motion.p 
+
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -128,18 +135,18 @@ export default function Landing({ onNavigate }) {
             >
               Experience a random chat alternative to find friends, connect with people, and chat with strangers from all over the world!
             </motion.p>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-medium transition-all shadow-[0_0_40px_-10px_rgba(147,51,234,0.5)] hover:shadow-[0_0_60px_-15px_rgba(147,51,234,0.7)] hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+              <button onClick={() => onNavigate("under-construction")} className="w-full sm:w-auto px-8 py-4 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-medium transition-all shadow-[0_0_40px_-10px_rgba(147,51,234,0.5)] hover:shadow-[0_0_60px_-15px_rgba(147,51,234,0.7)] hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
                 <MessageSquare className="w-5 h-5" />
                 Text Chat
               </button>
-              <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 backdrop-blur-sm text-white font-medium transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+              <button onClick={() => onNavigate("under-construction")} className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 backdrop-blur-sm text-white font-medium transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
                 <Video className="w-5 h-5" />
                 Video Chat
               </button>
@@ -151,7 +158,7 @@ export default function Landing({ onNavigate }) {
         <section className="py-24 px-6 border-t border-white/5 bg-black/20">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Anonymous Chat, <br/> Meet new people</h2>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Anonymous Chat, <br className="hidden sm:block" /> Meet new people</h2>
               <p className="text-zinc-400 text-lg">
                 Find strangers worldwide, the new modern Omegle and OmeTV alternative. Connect with real people, enjoy ad free text and video chats, and build genuine friendships.
               </p>
@@ -198,15 +205,15 @@ export default function Landing({ onNavigate }) {
               <div className="md:order-1 aspect-square md:aspect-[4/3] rounded-3xl border border-white/10 bg-zinc-900/50 p-2 shadow-2xl relative overflow-hidden">
                 <div className="w-full h-full rounded-2xl bg-zinc-950 border border-white/5 relative grid grid-rows-2 sm:grid-rows-1 sm:grid-cols-2 gap-2 p-2">
                   <div className="bg-zinc-900 rounded-xl flex items-center justify-center relative overflow-hidden">
-                     <span className="text-zinc-600 font-medium">Stranger #1</span>
-                     <div className="absolute bottom-4 right-4 flex gap-2">
-                       <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center"><HeartIcon className="w-4 h-4 text-white"/></div>
-                     </div>
+                    <span className="text-zinc-600 font-medium">Stranger #1</span>
+                    <div className="absolute bottom-4 right-4 flex gap-2">
+                      <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center"><HeartIcon className="w-4 h-4 text-white" /></div>
+                    </div>
                   </div>
                   <div className="bg-zinc-800 rounded-xl flex items-center justify-center relative overflow-hidden">
                     <span className="text-zinc-500 font-medium">You</span>
                     <div className="absolute bottom-4 right-4 flex gap-2">
-                       <div className="w-8 h-8 rounded-full justify-center bg-purple-600 flex items-center"><Video className="w-4 h-4 text-white"/></div>
+                      <div className="w-8 h-8 rounded-full justify-center bg-purple-600 flex items-center"><Video className="w-4 h-4 text-white" /></div>
                     </div>
                   </div>
                 </div>
@@ -224,32 +231,32 @@ export default function Landing({ onNavigate }) {
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <FeatureCard 
+              <FeatureCard
                 icon={<Video className="w-6 h-6" />}
                 title="Video Chat"
                 desc="Experience authentic face to face encounters with real people from all over the world."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={<Users className="w-6 h-6" />}
                 title="Friends & History"
                 desc="Had a fun chat but skipped by accident? Find them in your chat history and add them as a friend."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={<Search className="w-6 h-6" />}
                 title="Search Filters"
                 desc="Want to narrow down your search? Use interests, genders or locations to filter the strangers you meet."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={<MessageSquare className="w-6 h-6" />}
                 title="Text Chat"
                 desc="Not in the mood for video? No problem! You can also chat with strangers via text messages."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={<ShieldCheck className="w-6 h-6" />}
                 title="Safety & Moderation"
                 desc="We make use of advanced AI technologies and enhanced spam protection to keep your chats clean."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={<Sparkles className="w-6 h-6" />}
                 title="Feature rich"
                 desc="From sending photos, videos, having voice calls, to sharing GIFs and adding avatars, we have it all."
@@ -265,7 +272,7 @@ export default function Landing({ onNavigate }) {
             <p className="text-zinc-400 max-w-2xl mx-auto mb-16">
               We've asked random strangers, both men and women, to try our Omegle alternative platform. Here's what they had to say:
             </p>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
               {[
                 { name: "Stranger #1", role: "Beta Tester", review: "The filters makes finding people genuinely fun again. It's clean, fast, and exactly what I needed." },
@@ -294,9 +301,9 @@ export default function Landing({ onNavigate }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
               {/* Brand Column */}
               <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center">
-                    <MessageCircle className="w-6 h-6 text-white" />
+                <div className="flex items-center gap-3">
+                  <div className="w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center">
+                    <img src="/assets/logo.png" alt="Loopchat Logo" className="w-full h-full object-cover mix-blend-screen scale-[1.3] brightness-[1.1] contrast-[1.1]" />
                   </div>
                   <span className="text-xl font-bold tracking-tight text-white">Loopchat</span>
                 </div>
@@ -350,7 +357,7 @@ export default function Landing({ onNavigate }) {
                   Join our Discord server to get updates, early access, and participate in community events!
                 </p>
                 <button className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
-                  Join Discord 
+                  Join Discord
                 </button>
               </div>
             </div>
@@ -385,7 +392,7 @@ function FeatureCard({ icon, title, desc }) {
 function HeartIcon(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
     </svg>
   );
 }
