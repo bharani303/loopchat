@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Camera, ArrowRight, User, X } from 'lucide-react';
@@ -15,7 +15,7 @@ export default function ProfileSetup() {
   const [username, setUsername] = useState(currentUser?.username || currentUser?.email?.split('@')[0] || 'User');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const fileInputRef = React.useRef(null);
+  const fileInputRef = useRef(null);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
@@ -14,12 +14,12 @@ export default function Dashboard() {
   const { selectedUser } = useChat();
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-  const [fullProfile, setFullProfile] = React.useState(null);
+  const [fullProfile, setFullProfile] = useState(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
   const [inputForAi, setInputForAi] = useState({ text: '', ts: 0 });
   const [showRightProfilePic, setShowRightProfilePic] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const identifier = selectedUser?.email || selectedUser?.username;
     if (identifier) {
       setFullProfile(selectedUser); // Start with partial
