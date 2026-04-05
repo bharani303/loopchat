@@ -10,6 +10,10 @@ export default defineConfig({
     tailwindcss(),
   ],
 
+  define: {
+    global: 'window',
+  },
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

@@ -5,6 +5,15 @@ import App from './App.jsx'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 
+// 🔥 Elite Crypto Polyfill for production stability
+if (typeof window !== 'undefined' && !window.crypto) {
+  window.crypto = window.msCrypto || {};
+}
+if (typeof window !== 'undefined' && window.crypto && !window.crypto.subtle) {
+  // Polyfill subtle if missing (common in non-secure contexts)
+  window.crypto.subtle = window.crypto.webkitSubtle;
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorBoundary>
