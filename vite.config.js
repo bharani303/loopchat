@@ -11,9 +11,6 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // 🔥 Force absolute single source of truth for React
-      react: path.resolve(__dirname, "node_modules/react"),
-      "react-dom": path.resolve(__dirname, "node_modules/react-dom")
     }
   },
 
@@ -26,28 +23,17 @@ export default defineConfig({
     commonjsOptions: {
       transformMixedEsModules: true
     },
-    // Keep grouping for performance but under strict dedupe
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'vendor-core';
-            if (id.includes('framer-motion')) return 'vendor-animation';
-            if (id.includes('three')) return 'vendor-visuals';
-            if (id.includes('lucide')) return 'vendor-icons';
-            return 'vendor-utils';
-          }
+        // Safe chunking: only split out packages that do NOT depend on React
+        manualChunks: {
+          'vendor-visuals': ['three'],
         },
         chunkFileNames: 'static/js/[name].[hash].js',
         entryFileNames: 'static/js/[name].[hash].js',
         assetFileNames: 'static/[ext]/[name].[hash].[ext]',
       },
     },
-  },
-
-  // 🛡️ Remove debugging noise in production
-  esbuild: {
-    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
   },
 
   server: {
