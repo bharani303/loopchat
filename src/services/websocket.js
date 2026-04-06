@@ -4,7 +4,8 @@ import { Client } from '@stomp/stompjs';
 let stompClient = null;
 
 export const connect = (token, onConnected, onError, onMessage) => {
-  const socket = new SockJS(`/chat?token=${token}`);
+  const baseURL = import.meta.env.VITE_API_URL || 'https://api.bharanidharan.dev';
+  const socket = new SockJS(`${baseURL}/chat?token=${token}`);
 
   stompClient = new Client({
     webSocketFactory: () => socket,

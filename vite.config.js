@@ -44,7 +44,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'https://api.bharanidharan.dev',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/chat': {
+        target: 'https://api.bharanidharan.dev',
+        ws: true,
         changeOrigin: true,
         secure: false,
       },
