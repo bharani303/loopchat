@@ -320,7 +320,7 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
             <button 
               type="button" 
               onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading || !isConnected}
+              disabled={isUploading}
               className="p-2 hover:bg-[#2B2D31] hover:text-[#DBDEE1] rounded-full transition-all hidden sm:flex disabled:opacity-50"
             >
               {isUploading ? <Loader2 className="w-6 h-6 animate-spin text-[#8b5cf6]" /> : <PlusCircle className="w-6 h-6" />}
@@ -338,7 +338,6 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
                 id="chat-input"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                disabled={!isConnected}
                 placeholder={`Message @${selectedUser.username}`}
                 className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-[#DBDEE1] placeholder:text-[#828892] h-[44px] px-3 text-[15px] outline-none disabled:opacity-50"
               />
@@ -346,7 +345,7 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
           
           <button 
             type="submit" 
-            disabled={!inputText.trim() || !isConnected}
+            disabled={!inputText.trim()}
             className="bg-[#8b5cf6] hover:bg-[#7c3aed] disabled:bg-[#3A3C42] text-white p-[11px] rounded-full transition-all shadow-lg active:scale-95 flex-shrink-0"
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">

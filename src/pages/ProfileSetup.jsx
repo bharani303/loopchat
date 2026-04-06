@@ -148,9 +148,9 @@ export default function ProfileSetup() {
                     <input
                       type="text"
                       value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      disabled
                       placeholder="Your awesome username"
-                      className="w-full bg-[#1E1F22] rounded-[4px] px-4 py-3 text-[#DBDEE1] border-none outline-none font-medium text-[15px] focus:ring-1 focus:ring-[#5865F2] transition-all placeholder:text-[#4E5058]"
+                      className="w-full bg-[#1E1F22] rounded-[4px] px-4 py-3 text-[#949BA4] border-none outline-none font-medium text-[15px] cursor-not-allowed opacity-70"
                     />
                   </div>
                   <p className="text-[11px] text-[#72767D] px-1 italic">Choose a unique display name for the community.</p>

@@ -65,7 +65,7 @@ export default function Sidebar({ className }) {
           {/* Recent / Search Results */}
           <div className="flex items-center justify-between pt-3 pb-1 px-3">
              <h2 className="text-xs font-bold text-[#949BA4] uppercase hover:text-[#DBDEE1] transition-colors cursor-default">
-               {searchQuery ? 'Search Results' : (isFocused ? 'Discover People' : 'Recent Chats')}
+               {searchQuery ? 'Search Results' : (isFocused ? 'Discover People' : `Recent Chats — ${Math.max(0, onlineUsers.length - (onlineUsers.includes(currentUser?.email) ? 1 : 0))} Online`)}
              </h2>
              {!searchQuery && !isFocused && <span className="text-[#949BA4] hover:text-[#DBDEE1] cursor-pointer text-lg font-light leading-none">+</span>}
           </div>

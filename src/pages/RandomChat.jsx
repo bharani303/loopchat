@@ -127,7 +127,7 @@ export default function RandomChat() {
             <div className="h-4 w-px bg-[#3F4147] hidden sm:block" />
             <div className="flex items-center gap-2 text-[#949BA4] text-xs md:text-sm truncate">
               <Zap className="w-3 md:w-4 h-3 md:h-4 text-amber-500 fill-amber-500" />
-              <span className="truncate">{onlineUsers.length} Users Online</span>
+              <span className="truncate">{Math.max(0, onlineUsers.length - (onlineUsers.includes(currentUser?.email) ? 1 : 0))} Users Online</span>
             </div>
           </div>
           
