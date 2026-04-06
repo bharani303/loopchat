@@ -30,10 +30,10 @@ export const connect = (token, onConnected, onError, onMessage) => {
 
     onWebSocketClose: (error) => {
       console.warn('WebSocket closed.', error);
-      if (onError) onError(error);
+      if (onError) onError(error) ;
     }
   });
-
+  
   stompClient.activate();
 };
 
