@@ -6,7 +6,7 @@ let stompClient = null;
 export const connect = (token, onConnected, onError, onMessage) => {
   const baseURL = import.meta.env.VITE_API_URL || 'https://api.bharanidharan.dev';
   const socket = new SockJS(`${baseURL}/chat`);
-
+  console.log("new build fix");
   stompClient = new Client({
     webSocketFactory: () => socket,
     reconnectDelay: 5000,
@@ -22,6 +22,7 @@ export const connect = (token, onConnected, onError, onMessage) => {
         }
       });
     },
+    
 
     onStompError: (frame) => {
       console.error('STOMP ERROR:', frame);
