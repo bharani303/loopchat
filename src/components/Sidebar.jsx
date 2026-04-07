@@ -23,9 +23,11 @@ export default function Sidebar({ className }) {
           const response = await searchUsers(searchQuery);
           let filtered = (response.data || []).filter(u => u.email !== currentUser?.email);
           
-          // If query is empty but focused, show 10 random members
+          // If query is empty but focused, show online members
           if (!searchQuery.trim() && isFocused) {
-            filtered = filtered.sort(() => 0.5 - Math.random()).slice(0, 10);
+            filtered = filtered.filter(u => onlineUsers.includes(u.email || u.username));
+            // if no one else is online, we just show empty or fall back?
+            // The prompt says "if i click teh find button show all onlie peples", so we just show online people.
           }
           
           setUsers(filtered);

@@ -71,52 +71,17 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImageToCrop(reader.result);
-        setOriginalFile(file);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      try {
-        setIsUploading(true);
-        const { url, type } = await uploadMedia(file);
-        sendMessage(url, type);
-      } catch (error) {
-        console.error("Upload failed", error);
-      } finally {
-        setIsUploading(false);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-      }
-    }
-  };
-
-  const handleCropComplete = async (croppedBlob) => {
-    setSelectedImageToCrop(null);
     try {
       setIsUploading(true);
-      const croppedFile = new File([croppedBlob], originalFile.name || 'cropped.jpg', { type: 'image/jpeg' });
-      const { url, type } = await uploadMedia(croppedFile);
+      const { url, type } = await uploadMedia(file);
       sendMessage(url, type);
     } catch (error) {
       console.error("Upload failed", error);
     } finally {
       setIsUploading(false);
-      setOriginalFile(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-    }
-  };
-
-  const handleCropCancel = () => {
-    setSelectedImageToCrop(null);
-    setOriginalFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
     }
   };
 
@@ -304,6 +269,7 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
       {/* Input Area */}
       <div className="px-4 py-4 bg-[#1a1b1e] border-t border-[#2B2D31]/50 shrink-0">
         <form onSubmit={handleSend} className="flex items-center gap-2 sm:gap-3 max-w-6xl mx-auto">
+          {/* External Emoji Icon */}
           <div className="flex items-center text-[#72767D] shrink-0 relative" ref={emojiPickerRef}>
             <button type="button" className="p-2 hover:bg-[#2B2D31] hover:text-[#DBDEE1] rounded-full transition-all" onClick={() => setShowEmojiPicker((prev) => !prev)}>
               <Smile className="w-6 h-6" />
@@ -316,30 +282,31 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
                 </Suspense>
               </div>
             )}
-
-            <button 
-              type="button" 
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading}
-              className="p-2 hover:bg-[#2B2D31] hover:text-[#DBDEE1] rounded-full transition-all hidden sm:flex disabled:opacity-50"
-            >
-              {isUploading ? <Loader2 className="w-6 h-6 animate-spin text-[#8b5cf6]" /> : <PlusCircle className="w-6 h-6" />}
-            </button>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              style={{ display: 'none' }} 
-              onChange={handleFileChange} 
-            />
           </div>
 
-          <div className="flex-1 bg-[#2B2D31] rounded-full border border-[#3A3C42] focus-within:border-[#8b5cf6]/60 shadow-inner group flex items-center transition-all px-2">
+          {/* ChatGPT-style unified input box with attach icon inside */}
+          <div className="flex-1 bg-[#2B2D31] rounded-2xl border border-[#3A3C42] focus-within:border-[#8b5cf6]/60 shadow-sm group flex items-center transition-all px-2 py-1">
+              <button 
+                type="button" 
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+                className="p-1.5 text-[#B5BAC1] hover:text-[#DBDEE1] hover:bg-[#3F4147] rounded-full transition-all hidden sm:flex disabled:opacity-50"
+                title="Attach file"
+              >
+                {isUploading ? <Loader2 className="w-5 h-5 animate-spin text-[#8b5cf6]" /> : <PlusCircle className="w-5 h-5" />}
+              </button>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                style={{ display: 'none' }} 
+                onChange={handleFileChange} 
+              />
               <input 
                 id="chat-input"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={`Message @${selectedUser.username}`}
-                className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-[#DBDEE1] placeholder:text-[#828892] h-[44px] px-3 text-[15px] outline-none disabled:opacity-50"
+                className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-[#DBDEE1] placeholder:text-[#828892] h-[40px] px-2 text-[15px] outline-none disabled:opacity-50"
               />
           </div>
           
@@ -354,14 +321,6 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
           </button>
         </form>
       </div>
-
-      {selectedImageToCrop && (
-        <ImageCropModal 
-          imageSrc={selectedImageToCrop} 
-          onComplete={handleCropComplete} 
-          onCancel={handleCropCancel} 
-        />
-      )}
 
       {showProfilePic && createPortal(
         <div 

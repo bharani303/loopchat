@@ -89,6 +89,10 @@ export const ChatProvider = ({ children }) => {
           setIsConnected(true);
           console.log('WebSocket connected.');
 
+          if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+          }
+
           fetchOnlineUsersApi()
             .then(res => setOnlineUsers(res.data || []))
             .catch(console.error);
@@ -131,6 +135,19 @@ export const ChatProvider = ({ children }) => {
           } else {
             // NEW message from someone else
             addMessage(newMsg);
+
+            // Notify if the chat isn't open or the window is hidden
+            const openConv = selectedUserRef.current;
+            if (openConv?.email !== newMsg.sender || document.hidden) {
+              if ('Notification' in window && Notification.permission === 'granted') {
+                 const senderName = newMsg.sender.split('@')[0];
+                 const text = newMsg.type === 'IMAGE' ? '📷 Sent an image' : newMsg.content;
+                 const shortText = text.length > 50 ? text.substring(0, 50) + '...' : text;
+                 new Notification(`New message from ${senderName}`, {
+                    body: shortText
+                 });
+              }
+            }
             
             // 🔥 Add sender to Recent Users and ALWAYS sync real data
             setRecentUsers(prev => {
@@ -151,7 +168,6 @@ export const ChatProvider = ({ children }) => {
             sendDeliveredReceipt(newMsg);
 
             // Auto READ receipt only if receiver has this conversation open → ✓✓ blue
-            const openConv = selectedUserRef.current;
             if (openConv?.email === newMsg.sender) {
               sendReadReceipt(newMsg);
             }

@@ -74,19 +74,19 @@ console.log("NEW BUILD FORCE 123");
 // ─────────────────────────────────────────────
 
 export const getSmartReply = (text) =>
-  api.post('/api/ai/reply', text, { headers: { 'Content-Type': 'text/plain' } });
+  api.post('/api/ai/reply', JSON.stringify(text), { headers: { 'Content-Type': 'application/json' } });
 // response: "Hey! How's it going?"
 
 export const getSentiment = (text) =>
-  api.post('/api/ai/sentiment', text, { headers: { 'Content-Type': 'text/plain' } });
+  api.post('/api/ai/sentiment', JSON.stringify(text), { headers: { 'Content-Type': 'application/json' } });
 // response: "Positive 😊"
 
 export const getSummary = (text) =>
-  api.post('/api/ai/summarize', text, { headers: { 'Content-Type': 'text/plain' } });
+  api.post('/api/ai/summarize', JSON.stringify(text), { headers: { 'Content-Type': 'application/json' } });
 // response: "The conversation discusses..."
 
 export const getRephrase = (text) =>
-  api.post('/api/ai/rephrase', text, { headers: { 'Content-Type': 'text/plain' } });
+  api.post('/api/ai/rephrase', JSON.stringify(text), { headers: { 'Content-Type': 'application/json' } });
 // response: "That isn't ideal, honestly."
 
 export default api;

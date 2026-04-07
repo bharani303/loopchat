@@ -85,11 +85,16 @@ export const AuthProvider = ({ children }) => {
       if (data && data.token) {
         // Extract email from JWT if login response doesn't include it
         const emailFromToken = getEmailFromToken(data.token);
-        const userData = { ...data, email: data.email || emailFromToken };
+        const resolvedEmail = data.email || emailFromToken;
+        const userData = { ...data, email: resolvedEmail };
         
+        // IMMEDIATELY step 1: store in localStorage (Fixes persistence across refreshes)
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('email', resolvedEmail);
+        localStorage.setItem('user', JSON.stringify(userData));
+
         setToken(data.token);
         setCurrentUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
         return true;
       }
       return false;
@@ -100,7 +105,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('user');
     setToken(null);
+    setCurrentUser(null);
   };
 
   return (
