@@ -54,10 +54,10 @@ export const forgotPassword = (data) =>
 // data: { email, token, newPassword }
 
 // ─────────────────────────────────────────────
-// CHAT MICROSERVICE ENDPOINTS (/api/chat)
+// CHAT MICROSERVICE ENDPOINTS (/api/messages)
 // ─────────────────────────────────────────────
 
-export const getChatHistory = (user1, user2) =>
+export const getMessages = (user1, user2) =>
   api.get(`/api/messages/messages?user1=${encodeURIComponent(user1)}&user2=${encodeURIComponent(user2)}`);
 // response: [{ sender, receiver, content, status, timestamp }]
 

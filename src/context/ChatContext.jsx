@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { connect, sendPrivateMessage, sendDeliveredReceipt, sendReadReceipt, disconnect } from '../services/websocket';
-import { getChatHistory, getOnlineUsers as fetchOnlineUsersApi, getConversations, getUserProfileApi } from '../services/api';
+import { getMessages, getOnlineUsers as fetchOnlineUsersApi, getConversations, getUserProfileApi } from '../services/api';
 import { useAuth } from './AuthContext';
 
 const ChatContext = createContext();
@@ -166,7 +166,7 @@ export const ChatProvider = ({ children }) => {
   // ── Load DB history (flagged as NOT live — ticks stay as SENT) ─────────────
   useEffect(() => {
     if (selectedUser && currentUser?.email) {
-      getChatHistory(currentUser.email, selectedUser.email)
+      getMessages(currentUser.email, selectedUser.email)
         .then(res => {
           const key = convKey(currentUser.email, selectedUser.email);
           // DB messages: always show as SENT (backend never updates DB status)
