@@ -224,21 +224,11 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
         </div>
         
         <div className="flex items-center gap-4 text-[#B5BAC1]">
-           {/* 🤖 AI Toggle Button */}
-           <button
+           {/* 🤖 AI Toggle Button Temporarily Disabled */}
+           {/* <button
              onClick={onToggleAi}
-             className={`relative p-1.5 rounded-lg transition-all duration-300 group ${
-               isAiOpen 
-                 ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30' 
-                 : 'hover:text-[#DBDEE1] hover:bg-[#3F4147]'
-             }`}
-             title="Toggle Loop AI"
-           >
-             <Sparkles className={`w-5 h-5 transition-transform duration-300 ${isAiOpen ? 'scale-110' : 'group-hover:scale-110'}`} />
-             {!isAiOpen && (
-               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse border-2 border-[#313338]" />
-             )}
-           </button>
+             // ... 
+           </button> */  }
 
            <Phone className="w-5 h-5 cursor-pointer hover:text-[#DBDEE1] transition-colors hidden sm:block" onClick={() => navigate('/under-construction')} />
            <Video className="w-5 h-5 cursor-pointer hover:text-[#DBDEE1] transition-colors hidden sm:block" onClick={() => navigate('/under-construction')} />
