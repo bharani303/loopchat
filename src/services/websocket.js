@@ -16,7 +16,7 @@ export const connect = (token, onConnected, onError, onMessage) => {
       console.log('WebSocket connected ✅');
       if (onConnected) onConnected();
 
-      stompClient.subscribe('/user/queue/messages', (msg) => {
+      stompClient.subscribe('/topic/messages', (msg) => {
         if (onMessage && msg.body) {
           onMessage(JSON.parse(msg.body));
         }
@@ -41,7 +41,7 @@ export const connect = (token, onConnected, onError, onMessage) => {
 export const sendPrivateMessage = (sender, receiver, content, type = 'TEXT') => {
   if (stompClient && stompClient.connected) {
     stompClient.publish({
-      destination: '/app/private-message',
+      destination: '/app/chat.send',
       body: JSON.stringify({ sender, receiver, content, type })
     });
   } else {
