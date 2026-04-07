@@ -62,7 +62,7 @@ export const getChatHistory = (user1, user2) =>
 // response: [{ sender, receiver, content, status, timestamp }]
 
 export const getOnlineUsers = () =>
-  api.get('/api/chat/online-users');
+  api.get('/api/messages/online-users');
 // response: ["a@gmail.com", "b@gmail.com"]
 
 export const getConversations = (email) =>
