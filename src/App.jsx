@@ -14,7 +14,6 @@ const ForgotPassword   = lazy(() => import('./pages/ForgotPassword'));
 const RandomChat       = lazy(() => import('./pages/RandomChat'));
 const NotFound         = lazy(() => import('./pages/NotFound'));
 const UnderConstruction = lazy(() => import('./pages/UnderConstruction'));
-const OAuth2Callback     = lazy(() => import('./pages/OAuth2Callback'));
 
 // Minimal loading fallback — prevents layout shift, shows instantly
 const PageLoader = () => (
@@ -65,7 +64,6 @@ export default function App() {
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/verify-otp" element={<OtpVerification />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/oauth2/callback" element={<OAuth2Callback />} />
 
             <Route
               path="/dashboard"
