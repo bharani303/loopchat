@@ -58,7 +58,7 @@ export const forgotPassword = (data) =>
 // ─────────────────────────────────────────────
 
 export const getChatHistory = (user1, user2) =>
-  api.get(`/api/chat/messages?user1=${encodeURIComponent(user1)}&user2=${encodeURIComponent(user2)}`);
+  api.get(`/api/messages/messages?user1=${encodeURIComponent(user1)}&user2=${encodeURIComponent(user2)}`);
 // response: [{ sender, receiver, content, status, timestamp }]
 
 export const getOnlineUsers = () =>
@@ -66,7 +66,7 @@ export const getOnlineUsers = () =>
 // response: ["a@gmail.com", "b@gmail.com"]
 
 export const getConversations = (email) =>
-  api.get(`/api/chat/conversations?user=${encodeURIComponent(email)}`);
+  api.get(`/api/messages/conversations?user=${encodeURIComponent(email)}`);
 
 console.log("NEW BUILD FORCE 123");
 // ─────────────────────────────────────────────
