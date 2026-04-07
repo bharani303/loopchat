@@ -6,11 +6,11 @@ let stompClient = null;
 export const connect = (token, onConnected, onError, onMessage) => {
   const baseURL = import.meta.env.VITE_API_URL || 'https://api.bharanidharan.dev';
   stompClient = new Client({
-    webSocketFactory: () => new SockJS(`${baseURL}/chat`),
+    webSocketFactory: () => new SockJS(`${baseURL}/chat?token=${token}`),
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
     heartbeatOutgoing: 4000,
-    connectHeaders: { Authorization: `Bearer ${token}` },
+    // connectHeaders: { Authorization: `Bearer ${token}` }, // Removed as token is in URL
 
     onConnect: () => {
       console.log('WebSocket connected ✅');
