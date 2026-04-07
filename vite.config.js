@@ -22,6 +22,12 @@ export default defineConfig({
     target: "esnext",
     minify: "esbuild",
     cssCodeSplit: true,
+    cssMinify: true,
+    sourcemap: false,
+    // Drop console/debugger in prod
+    esbuild: {
+      drop: ["console", "debugger"],
+    },
     commonjsOptions: {
       transformMixedEsModules: true
     },
@@ -30,14 +36,19 @@ export default defineConfig({
         manualChunks: {
           'react-core': ['react', 'react-dom', 'react-router-dom'],
           'vendor-animations': ['framer-motion'],
-          'vendor-visuals': ['three'],
-          'vendor-ui': ['lucide-react', 'emoji-picker-react'],
+          'vendor-3d': ['three'],
+          'vendor-ui': ['lucide-react'],
+          'vendor-emoji': ['emoji-picker-react'],
+          'vendor-auth': ['@react-oauth/google'],
+          'vendor-http': ['axios', '@stomp/stompjs'],
         },
         chunkFileNames: 'static/js/[name].[hash].js',
         entryFileNames: 'static/js/[name].[hash].js',
         assetFileNames: 'static/[ext]/[name].[hash].[ext]',
       },
     },
+    // Raise warning limit so builds don't look noisy
+    chunkSizeWarningLimit: 600,
   },
 
   server: {

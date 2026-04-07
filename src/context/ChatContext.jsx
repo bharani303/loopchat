@@ -127,16 +127,18 @@ export const ChatProvider = ({ children }) => {
           console.error('WebSocket connection lost.', err);
         },
         (newMsg) => {
-          const me = currentUserRef.current?.email;
+          const me = currentUserRef.current?.email?.toLowerCase();
+          const senderEmail = newMsg.sender?.toLowerCase();
 
-          if (newMsg.sender === me) {
+          if (senderEmail === me) {
             // STATUS UPDATE for a message I sent (DELIVERED or READ coming back)
+            // or an echoed message I just sent.
             updateMessageStatus(newMsg);
           } else {
             // NEW message from someone else
             addMessage(newMsg);
 
-            // Notify if the chat isn't open or the window is hidden
+            // Notify only if it's from someone else AND (the chat isn't open OR the window is hidden)
             const openConv = selectedUserRef.current;
             if (openConv?.email !== newMsg.sender || document.hidden) {
               if ('Notification' in window && Notification.permission === 'granted') {

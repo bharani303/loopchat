@@ -60,7 +60,7 @@ const getFileName = (url) => {
 
 // ─── MessageBubble ────────────────────────────────────────────────────────────
 
-export default function MessageBubble({ message, isOwn, previousMessage, senderName, senderAvatar }) {
+const MessageBubble = React.memo(function MessageBubble({ message, isOwn, previousMessage, senderName, senderAvatar }) {
   const [isMediaOpen, setIsMediaOpen] = useState(false);
   
   // Esc key to close media viewer
@@ -142,6 +142,7 @@ export default function MessageBubble({ message, isOwn, previousMessage, senderN
                 <img 
                   src={message.content} 
                   alt="Image" 
+                  loading="lazy"
                   className="max-w-[280px] sm:max-w-[400px] max-h-[500px] object-cover rounded-[5px] block shadow-inner group-hover/media:opacity-90 transition-opacity"
                 />
                 <div className="absolute bottom-1 right-2 flex items-center gap-[2px] px-1.5 py-0.5 rounded-full bg-black/30 backdrop-blur-sm text-[10px] text-white/90 select-none">
@@ -259,4 +260,6 @@ export default function MessageBubble({ message, isOwn, previousMessage, senderN
       </div>
     </div>
   );
-}
+});
+
+export default MessageBubble;

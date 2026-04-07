@@ -266,34 +266,52 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
       </div>
     </div>
 
-      {/* Input Area */}
-      <div className="px-4 py-4 bg-[#1a1b1e] border-t border-[#2B2D31]/50 shrink-0">
-        <form onSubmit={handleSend} className="flex items-center gap-2 sm:gap-3 max-w-6xl mx-auto">
-          {/* External Emoji Icon */}
-          <div className="flex items-center text-[#72767D] shrink-0 relative" ref={emojiPickerRef}>
-            <button type="button" className="p-2 hover:bg-[#2B2D31] hover:text-[#DBDEE1] rounded-full transition-all" onClick={() => setShowEmojiPicker((prev) => !prev)}>
-              <Smile className="w-6 h-6" />
-            </button>
+      {/* WhatsApp Style Input Area */}
+      <div className="px-2 py-3 bg-transparent shrink-0">
+        <form onSubmit={handleSend} className="flex items-end gap-2 sm:gap-2 max-w-6xl mx-auto relative">
+          
+          {/* Main Input Pill */}
+          <div className="flex-1 bg-[#2B2D31] rounded-[24px] shadow-sm flex items-end px-1.5 py-1.5 min-h-[44px]">
+            {/* Left inside: Emoji */}
+            <div className="flex items-center text-[#72767D] shrink-0" ref={emojiPickerRef}>
+              <button 
+                type="button" 
+                className="p-2 hover:bg-[#3F4147] hover:text-[#DBDEE1] rounded-full transition-colors flex items-center justify-center h-9 w-9" 
+                onClick={() => setShowEmojiPicker((prev) => !prev)}
+                title="Emojis"
+              >
+                <Smile className="w-[26px] h-[26px]" />
+              </button>
 
-            {showEmojiPicker && (
-              <div className="absolute bottom-full left-0 mb-4 z-50 drop-shadow-2xl">
-                <Suspense fallback={<div className="p-4 bg-[#2B2D31] text-[#DBDEE1] rounded-lg text-sm border border-[#3A3C42] shadow-lg">Loading picker...</div>}>
-                  <EmojiPicker onEmojiClick={onEmojiClick} theme="dark" />
-                </Suspense>
-              </div>
-            )}
-          </div>
+              {showEmojiPicker && (
+                <div className="absolute bottom-[60px] left-2 z-50 drop-shadow-2xl">
+                  <Suspense fallback={<div className="p-4 bg-[#2B2D31] text-[#DBDEE1] rounded-lg text-sm border border-[#3A3C42]">Loading...</div>}>
+                    <EmojiPicker onEmojiClick={onEmojiClick} theme="dark" />
+                  </Suspense>
+                </div>
+              )}
+            </div>
 
-          {/* ChatGPT-style unified input box with attach icon inside */}
-          <div className="flex-1 bg-[#2B2D31] rounded-2xl border border-[#3A3C42] focus-within:border-[#8b5cf6]/60 shadow-sm group flex items-center transition-all px-2 py-1">
+            {/* Input field */}
+            <input 
+              id="chat-input"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder="Type a message"
+              className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-[#DBDEE1] placeholder:text-[#828892] h-9 px-2 text-[15.5px] outline-none disabled:opacity-50"
+              autoComplete="off"
+            />
+
+            {/* Right inside: Attachment */}
+            <div className="flex items-center shrink-0 pr-1">
               <button 
                 type="button" 
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="p-1.5 text-[#B5BAC1] hover:text-[#DBDEE1] hover:bg-[#3F4147] rounded-full transition-all hidden sm:flex disabled:opacity-50"
+                className="p-2 text-[#B5BAC1] hover:text-[#DBDEE1] hover:bg-[#3F4147] rounded-full transition-colors flex items-center justify-center h-9 w-9 disabled:opacity-50"
                 title="Attach file"
               >
-                {isUploading ? <Loader2 className="w-5 h-5 animate-spin text-[#8b5cf6]" /> : <PlusCircle className="w-5 h-5" />}
+                {isUploading ? <Loader2 className="w-5 h-5 animate-spin text-[#23A559]" /> : <PlusCircle className="w-[22px] h-[22px]" />}
               </button>
               <input 
                 type="file" 
@@ -301,22 +319,25 @@ export default function ChatWindow({ onToggleAi, isAiOpen, aiInputText }) {
                 style={{ display: 'none' }} 
                 onChange={handleFileChange} 
               />
-              <input 
-                id="chat-input"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder={`Message @${selectedUser.username}`}
-                className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-[#DBDEE1] placeholder:text-[#828892] h-[40px] px-2 text-[15px] outline-none disabled:opacity-50"
-              />
+            </div>
           </div>
           
+          {/* Send Button (Outside pill, WhatsApp style) */}
           <button 
             type="submit" 
             disabled={!inputText.trim()}
-            className="bg-[#8b5cf6] hover:bg-[#7c3aed] disabled:bg-[#3A3C42] text-white p-[11px] rounded-full transition-all shadow-lg active:scale-95 flex-shrink-0"
+            className={`flex items-center justify-center w-11 h-11 rounded-full transition-all flex-shrink-0 shadow-md active:scale-95
+              ${inputText.trim() 
+                ? 'bg-[#23A559] hover:bg-[#1E8A49] text-white' 
+                : 'bg-[#2B2D31] text-[#72767D]'
+              }`}
           >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            <svg viewBox="0 0 24 24" fill="currentColor" className={`w-[20px] h-[20px] ${inputText.trim() ? 'ml-0.5' : ''}`}>
+               {inputText.trim() ? (
+                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+               ) : (
+                 <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+               )}
             </svg>
           </button>
         </form>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Camera, ArrowRight, User, X } from 'lucide-react';
+import { Camera, ArrowRight, User, X, Loader2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../context/AuthContext';
 import api, { getUserProfileApi } from '../services/api';
 import { uploadImage } from '../services/upload';
+import ImageCropModal from '../components/ImageCropModal';
 
 export default function ProfileSetup() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ export default function ProfileSetup() {
   const [username, setUsername] = useState(currentUser?.username || currentUser?.email?.split('@')[0] || 'User');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedImageToCrop, setSelectedImageToCrop] = useState(null);
+  const [originalFile, setOriginalFile] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleImageClick = () => {
@@ -28,15 +31,32 @@ export default function ProfileSetup() {
         alert("Image is too large! Please choose an image under 5MB.");
         return;
       }
-      setSelectedFile(file); // Store raw file for upload
-
-      // Generate local preview immediately
+      
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAvatarPreview(reader.result);
+        setSelectedImageToCrop(reader.result);
+        setOriginalFile(file);
       };
       reader.readAsDataURL(file);
+      e.target.value = ''; // reset file input
     }
+  };
+
+  const handleCropComplete = async (croppedBlob) => {
+    setSelectedImageToCrop(null);
+    const croppedFile = new File([croppedBlob], originalFile?.name || 'profile_pic.jpg', { type: 'image/jpeg' });
+    setSelectedFile(croppedFile);
+    
+    // Generate local preview immediately from crop
+    const reader = new FileReader();
+    reader.onload = () => setAvatarPreview(reader.result);
+    reader.readAsDataURL(croppedFile);
+    setOriginalFile(null);
+  };
+
+  const handleCropCancel = () => {
+    setSelectedImageToCrop(null);
+    setOriginalFile(null);
   };
 
   useEffect(() => {
@@ -97,6 +117,28 @@ export default function ProfileSetup() {
 
   return (
     <div className="min-h-screen bg-[#313338] flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans selection:bg-[#5865F2] selection:text-white">
+      
+      {/* Professional Centered Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center animate-in fade-in duration-200">
+          <div className="bg-[#2B2D31] p-8 rounded-2xl shadow-2xl flex flex-col items-center gap-5 border border-[#1E1F22]">
+            <Loader2 className="w-12 h-12 animate-spin text-[#5865F2]" />
+            <div className="flex flex-col items-center gap-1">
+              <h3 className="text-white font-bold text-xl tracking-tight">Securing your profile</h3>
+              <p className="text-[#949BA4] text-sm font-medium animate-pulse">Uploading data directly to LoopChat server...</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedImageToCrop && (
+        <ImageCropModal 
+          imageSrc={selectedImageToCrop} 
+          onComplete={handleCropComplete} 
+          onCancel={handleCropCancel} 
+        />
+      )}
+
       <input 
         type="file" 
         ref={fileInputRef} 
