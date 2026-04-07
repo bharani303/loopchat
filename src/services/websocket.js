@@ -5,11 +5,11 @@ let stompClient = null;
 
 export const connect = (token, onConnected, onError, onMessage) => {
   const baseURL = import.meta.env.VITE_API_URL || 'https://api.bharanidharan.dev';
-  const socket = new SockJS(`${baseURL}/chat`);
-  console.log("new build fix");
   stompClient = new Client({
-    webSocketFactory: () => socket,
+    webSocketFactory: () => new SockJS(`${baseURL}/chat`),
     reconnectDelay: 5000,
+    heartbeatIncoming: 4000,
+    heartbeatOutgoing: 4000,
     connectHeaders: { Authorization: `Bearer ${token}` },
 
     onConnect: () => {
