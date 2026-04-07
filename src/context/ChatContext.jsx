@@ -82,7 +82,7 @@ export const ChatProvider = ({ children }) => {
 
   // ── WebSocket connection ────────────────────────────────────────────────────
   useEffect(() => {
-    if (token && currentUser) {
+    if (token && currentUser?.email) {
       connect(
         token,
         () => {
@@ -161,7 +161,7 @@ export const ChatProvider = ({ children }) => {
 
       return () => disconnect();
     }
-  }, [token, currentUser]);
+  }, [token, currentUser?.email]);
 
   // ── Load DB history (flagged as NOT live — ticks stay as SENT) ─────────────
   useEffect(() => {
